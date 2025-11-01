@@ -1,4 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables (NEVER commit these!)
 .env
-chroma_*
-chroma
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Chroma vector databases (too large for git, recreate from data/)
+chroma/
+chroma_fresh/
+chroma_test/
+chroma_debug/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# Ngrok (if you save ngrok configs)
+ngrok.yml
+
+# OpenAI API keys (safety net)
+.env.*
+config.json
+secrets.json

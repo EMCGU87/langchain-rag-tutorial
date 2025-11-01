@@ -1,47 +1,73 @@
-# Langchain RAG Tutorial
+# RAG Tutorial with FastAPI & LangChain
 
-## Install dependencies
+A complete Retrieval-Augmented Generation (RAG) pipeline that creates a searchable vector database from documents and exposes it via a REST API, ready for integration with Custom GPTs.
 
-1. Do the following before installing the dependencies found in `requirements.txt` file because of current challenges installing `onnxruntime` through `pip install onnxruntime`. 
+## Features
 
-    - For MacOS users, a workaround is to first install `onnxruntime` dependency for `chromadb` using:
+✅ **Document Ingestion**: Load markdown documents and chunk them for semantic search  
+✅ **Vector Storage**: Persist embeddings in Chroma DB for fast retrieval  
+✅ **REST API**: FastAPI endpoint to query your knowledge base  
+✅ **Custom GPT Ready**: Expose via ngrok for OpenAI GPT Actions integration  
+✅ **Interactive Notebooks**: Easy development and testing with Jupyter
 
-    ```python
-     conda install onnxruntime -c conda-forge
-    ```
-    See this [thread](https://github.com/microsoft/onnxruntime/issues/11037) for additonal help if needed. 
+---
 
-     - For Windows users, follow the guide [here](https://github.com/bycloudai/InstallVSBuildToolsWindows?tab=readme-ov-file) to install the Microsoft C++ Build Tools. Be sure to follow through to the last step to set the enviroment variable path.
+## Quick Start
 
+**For detailed setup instructions, see [SETUP.md](SETUP.md)**
 
-2. Now run this command to install dependenies in the `requirements.txt` file. 
+1. **Clone and install**:
+   ```bash
+   pip install -r requirements.txt
+   pip install "unstructured[md]"
+   ```
 
-```python
-pip install -r requirements.txt
-```
+2. **Configure environment**:
+   - Copy `env.example` to `.env`
+   - Add your OpenAI API key
 
-3. Install markdown depenendies with: 
+3. **Ingest data**:
+   ```bash
+   jupyter notebook Chroma_ingestion.ipynb  # Run all cells
+   ```
 
-```python
-pip install "unstructured[md]"
-```
+4. **Run the API**:
+   ```bash
+   uvicorn rag_api:app --reload
+   ```
 
-## Create database
+5. **Test**: Open http://127.0.0.1:8000/docs
 
-Create the Chroma DB.
+---
 
-```python
-python create_database.py
-```
+## Project Structure
 
-## Query the database
+- **`rag_api.py`** - FastAPI server with `/query` endpoint  
+- **`rag_service.py`** - Core RAG pipeline (retrieve + generate)  
+- **`Chroma_ingestion.ipynb`** - Data ingestion notebook  
+- **`Query_data_2.ipynb`** - Query testing notebook  
+- **`data/books/`** - Your markdown documents  
+- **`chroma_fresh/`** - Generated vector database
 
-Query the Chroma DB.
+---
 
-```python
-python query_data.py "How does Alice meet the Mad Hatter?"
-```
+## Integrate with Custom GPT
 
-> You'll also need to set up an OpenAI account (and set the OpenAI key in your environment variable) for this to work.
+1. Start ngrok: `ngrok http 8000`
+2. Copy the HTTPS URL
+3. Add as an Action in your Custom GPT (see OpenAI documentation)
 
-Here is a step-by-step tutorial video: [RAG+Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami).
+---
+
+## Tutorial Video
+
+Original tutorial: [RAG+Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I)
+
+---
+
+## Requirements
+
+- Python 3.10+
+- OpenAI API key
+- Windows: Microsoft C++ Build Tools
+- macOS: `conda install onnxruntime -c conda-forge`
